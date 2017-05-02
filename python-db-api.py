@@ -10,7 +10,7 @@ import sqlite3
 # Fetch some student records from the database.
 db = sqlite3.connect("students")
 c = db.cursor()
-# Order list by Name alphabetically 
+# Order list by Name alphabetically
 query = "select name, id from students order by name;"
 c.execute(query)
 rows = c.fetchall()
@@ -26,3 +26,20 @@ for row in rows:
   print "  ", row[0]
 
 db.close()
+
+# ------------------------------------
+
+# This code attempts to insert a new row into the database, but doesn't
+# commit the insertion.  Add a commit call in the right place to make
+# it work properly.
+#
+
+import sqlite3
+
+db = sqlite3.connect("testdb")
+c = db.cursor()
+c.execute("insert into balloons values ('blue', 'water') ")
+# Add Commit here
+db.commit()
+db.close()
+
