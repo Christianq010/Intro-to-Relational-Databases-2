@@ -150,3 +150,20 @@ LEFT_JOIN = {
     """
 
 }
+
+Subqueries = {
+    # Run a query on a return result ( which is a table) from a query executed before.
+
+    # The example below Mooseball has 3 columns - player | team | score
+    # Name Result 'maxes' - gotta name it
+    """
+    select avg(bigscore)from
+        (select max(score)
+            as bigscore
+        from mooseball
+            group by team)
+    as maxes;
+    
+    """
+
+}
