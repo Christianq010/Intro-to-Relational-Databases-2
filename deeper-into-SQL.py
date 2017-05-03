@@ -1,3 +1,4 @@
+# coding=utf-8
 CREATE_DATABASE_and_connect = {
     # In the VM enter the psql prompt
 
@@ -96,3 +97,56 @@ select a.id, b.id, a.building, a.room
 #
 # QUERY = "select id, building, room from residences;"
 #
+
+LEFT_JOIN = {
+    # Suppose that we want to know how many times we have sold each product. In other words, for each sku value in the products table, we want to know the number of times it occurs in the sales table.
+    # This query will give us a row for every product in the products table, even the ones that have no sales in the sales table.
+    # We’re using count(sales.sku) instead of count(*). This means that the database will count only rows where sales.sku is defined, instead of all rows.
+    # We’re using a left join instead of a plain join.
+
+    """
+    select products.name, products.sku, count(sales.sku) as num
+        from products left join sales
+        on products.sku = sales.sku
+    group by products.sku;
+    """
+# -- Here are two tables describing bugs found in some programs.
+# -- The "programs" table gives the name of each program and the files
+# -- that it's made of.  The "bugs" table gives the file in which each
+# -- bug was found.
+# --
+# -- create table programs (
+# --    name text,
+# --    filename text
+# -- );
+# -- create table bugs (
+# --    filename text,
+# --    description text,
+# --    id serial primary key
+# -- );
+# --
+# -- The query below is intended to count the number of bugs in each
+# -- program. But it doesn't return a row for any program that has zero
+# -- bugs. Try running it as it is.  Then change it so that the results
+# -- will also include rows for the programs with no bugs.  These rows
+# -- should have a 0 in the "bugs" column.
+
+    """
+    select programs.name, count(*) as num
+       from programs join bugs
+            on programs.filename = bugs.filename
+       group by programs.name
+       order by num;
+    """
+    
+    # Answer
+    
+    """
+    select programs.name, count(bugs.filename) as num
+       from programs left join bugs
+         on programs.filename = bugs.filename
+       group by programs.name
+       order by num;
+    """
+
+}
