@@ -44,3 +44,33 @@ DECLARE_RELATIONSHIPS = {
     );
     """
 }
+
+FOREIGN_KEYS = {
+    # The keys reference to the primary key of a table
+    # Table 1
+
+    """
+    create table students (
+    id serial primary key,
+    name text
+    );
+    """
+
+    # Table 2
+    """
+    create table courses (
+    id text primary key,
+    name text
+    );
+    """
+    
+    # Table that references with foreign key  
+    """
+    create table grades (
+    student integer references students (id),
+    course text references courses (id),
+    grade text
+    );
+    """
+
+}
